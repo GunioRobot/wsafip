@@ -30,7 +30,7 @@ class WSFEService
     obj.streamhandler.client.ssl_config.verify_mode = OpenSSL::SSL::VERIFY_NONE
     @response = obj.fEAutRequest(autReq).fEAutRequestResult
   end
-  
+
   def get_ultimo_nro_comprobante(pto_vta, tipo_cbte)
     auth = FEAuthRequest.new( @wsaa_ticket.token, @wsaa_ticket.sign, @cuit )
     cpm = FELastCMPtype.new(pto_vta, tipo_cbte)

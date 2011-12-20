@@ -1,17 +1,17 @@
 # WSAA
 # Implementacion del webservice de auteticacion de la AFIP
-# 
+#
 # Algunos ejemplos de uso:
 #
 # Obtiene un ticket para el servicio de factura electronica para conectarse a homologacion
-# tck = WSAA::WSAAService.request_ticket( :service => 'wsfe', 
-#                                         :certificate => 'certificado.pem', 
+# tck = WSAA::WSAAService.request_ticket( :service => 'wsfe',
+#                                         :certificate => 'certificado.pem',
 #                                         :private_key => 'private.key' )
 #
 # Obtiene un ticket para el servicio de factura electronica para conectarse a produccion
-# tck = WSAA::WSAAService.request_ticket( :service => 'wsfe', 
+# tck = WSAA::WSAAService.request_ticket( :service => 'wsfe',
 #                                         :server => :prod,
-#                                         :certificate => 'certificado.pem', 
+#                                         :certificate => 'certificado.pem',
 #                                         :private_key => 'private.key',
 #                                         :pk_password => 'secret' )
 #
@@ -25,7 +25,7 @@
 # http://netflux.com.ar
 # http://nelson.netflux.com.ar
 # nelson@netflux.com.ar
-# 
+#
 require 'wsaa/wsaa_driver.rb'
 require 'wsaa/wsaa_request'
 require 'xmlsimple'
@@ -42,12 +42,12 @@ module WSAA
   #   * sign : firma devuelta por el webservice
   #   * response: estructura hash con la respuesta del servicio
   #
-  # En caso de producirse un error al solicitar el ticket, se puede consultar la variable de instancia 
+  # En caso de producirse un error al solicitar el ticket, se puede consultar la variable de instancia
   # *error* que contiene el mensaje de error de la operación.
   #
   class WSAATicket
     attr_reader :token, :sign
-    attr_accessor :response, :error 
+    attr_accessor :response, :error
 
     # Inicializa el objeto recibiendo como parametro el request utilizado para la solicitud
     def initialize(request)
@@ -90,14 +90,14 @@ module WSAA
   #   :service          servicio para el que se solicita el ticket, por ejemplo "wsfe" para factura electronica
   #
   class WSAAService
-    
+
     HOMO_URL = 'https://wsaahomo.afip.gov.ar/ws/services/LoginCms'
     PROD_URL = 'https://wsaa.afip.gov.ar/ws/services/LoginCms'
     DN_HOMO  = 'CN=wsaahomo, O=AFIP, C=AR, SERIALNUMBER=CUIT 33693450239'
     DN_PROD  = 'CN=wsaa, O=AFIP, C=AR, SERIALNUMBER=CUIT 33693450239'
 
     def self.request_ticket(options = {})
-      options[:server]      = (options[:server] == :prod) ? :prod : :homo 
+      options[:server]      = (options[:server] == :prod) ? :prod : :homo
       options[:destination] = (options[:server] == :prod) ? DN_PROD : DN_HOMO
 
       obj = LoginCmsWs.new(options[:server] == :prod ? PROD_URL : HOMO_URL)
